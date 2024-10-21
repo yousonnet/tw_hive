@@ -2,6 +2,7 @@ import uvicorn
 from dotenv import load_dotenv
 import os
 
+load_dotenv()
 port = os.getenv('host_port')
 
 if __name__ == "__main__":
