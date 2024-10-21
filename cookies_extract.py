@@ -7,8 +7,15 @@ load_dotenv()
 
 cookies_str = os.getenv('accounts_str_included_cookies')
 
+def add_base64_padding(base64_string: str) -> str:
+    # Calculate the required padding
+    padding = len(base64_string) % 4
+    if padding != 0:
+        base64_string += '=' * (4 - padding)
+    return base64_string
 
 def decode_cookies_from_singlestr(singlestr:str)->dict:
+    singlestr = add_base64_padding(singlestr)
     decoded_data = base64.b64decode(singlestr).decode('utf-8')
 
     # Parse the JSON data
