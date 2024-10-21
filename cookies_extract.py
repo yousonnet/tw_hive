@@ -8,29 +8,50 @@ load_dotenv()
 cookies_str = os.getenv('accounts_str_included_cookies')
 
 
-# def decode_cookies_from_singlestr(singlestr:str)->dict:
-#     decoded_data = base64.b64decode(singlestr).decode('utf-8')
+def decode_cookies_from_singlestr(singlestr:str)->dict:
+    decoded_data = base64.b64decode(singlestr).decode('utf-8')
 
-#     # Parse the JSON data
-#     cookies = json.loads(decoded_data)
-#     return cookies
-def decode_cookies_from_singlestr(singlestr: str) -> dict:
-    try:
-        # Adjust padding
-        padding = len(singlestr) % 4
-        if padding != 0:
-            singlestr += '=' * (4 - padding)
+    # Parse the JSON data
+    cookies = json.loads(decoded_data)
+    return cookies
+# def decode_cookies_from_singlestr(singlestr: str) -> dict:
+#     try:
+#         # Adjust padding
+#         padding = len(singlestr) % 4
+#         if padding != 0:
+#             singlestr += '=' * (4 - padding)
         
-        # Decode the Base64 string
-        decoded_data = base64.b64decode(singlestr).decode('utf-8')
+#         # Decode the Base64 string
+#         decoded_data = base64.b64decode(singlestr).decode('utf-8')
         
-        # Parse the JSON data
-        cookies = json.loads(decoded_data)
-        return cookies
-    except (UnicodeDecodeError, json.JSONDecodeError, base64.binascii.Error) as e:
-        print(f"Error decoding string: {e}")
-        return {}
-    
+#         # Parse the JSON data
+#         cookies = json.loads(decoded_data)
+#         return cookies
+#     except (UnicodeDecodeError, json.JSONDecodeError, base64.binascii.Error) as e:
+#         print(f"Error decoding string: {e}")
+#         return {}
+# def decode_cookies_from_singlestr(singlestr: str) -> dict:
+#     try:
+#         # Adjust padding
+#         padding = len(singlestr) % 4
+#         if padding != 0:
+#             singlestr += '=' * (4 - padding)
+        
+#         # Decode the Base64 string
+#         decoded_data = base64.b64decode(singlestr)
+        
+#         # Try decoding with utf-8, fallback to latin1 if necessary
+#         try:
+#             decoded_data = decoded_data.decode('utf-8')
+#         except UnicodeDecodeError:
+#             decoded_data = decoded_data.decode('latin1')
+        
+#         # Parse the JSON data
+#         cookies = json.loads(decoded_data)
+#         return cookies
+#     except Exception as e:
+#         print(f"Error decoding string: {e}")
+#         return {}
 # def decode_cookies_from_singlestr(singlestr: str) -> dict:
 #     # Adjust padding
 #     padding = len(singlestr) % 4
@@ -61,6 +82,7 @@ def extract_base64_data(text,base64_length:int=256)->list[str]:
     return_length_enough =[]
     for item in matches:
         if len(item)>=base64_length:
+            print(len(item))
             return_length_enough.append(item)
     # Return the list of matches
     return return_length_enough
