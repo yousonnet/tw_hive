@@ -8,14 +8,34 @@ load_dotenv()
 cookies_str = os.getenv('accounts_str_included_cookies')
 
 
-def decode_cookies_from_singlestr(singlestr:str)->dict:
+# def decode_cookies_from_singlestr(singlestr:str)->dict:
+#     decoded_data = base64.b64decode(singlestr).decode('utf-8')
+
+#     # Parse the JSON data
+#     cookies = json.loads(decoded_data)
+#     return cookies
+
+def decode_cookies_from_singlestr(singlestr: str) -> dict:
+    # Adjust padding
+    padding = len(singlestr) % 4
+    if padding != 0:
+        singlestr += '=' * (4 - padding)
+    
+    # Decode the Base64 string
     decoded_data = base64.b64decode(singlestr).decode('utf-8')
 
     # Parse the JSON data
     cookies = json.loads(decoded_data)
     return cookies
-
-
+# def decode_cookies_from_singlestr(singlestr):
+#     # Adjust padding
+#     padding = len(singlestr) % 4
+#     if padding != 0:
+#         singlestr += '=' * (4 - padding)
+    
+#     # Decode the Base64 string
+#     decoded_data = base64.b64decode(singlestr).decode('utf-8')
+#     return decoded_data
 def extract_base64_data(text,base64_length:int=256)->list[str]:
     # Regular expression pattern to match base64 strings
     base64_pattern = r'[A-Za-z0-9+/=]{40,}'
