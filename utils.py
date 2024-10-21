@@ -3,15 +3,51 @@ import functools
 import traceback
 import time
 import asyncio
+import re
 
-def key_exists(data, target_key):
+def is_key_exists(data, target_key):
     if isinstance(data, dict):
         if target_key in data:
             return True
-        return any(key_exists(value, target_key) for value in data.values())
+        return any(is_key_exists(value, target_key) for value in data.values())
     elif isinstance(data, list):
-        return any(key_exists(item, target_key) for item in data)
+        return any(is_key_exists(item, target_key) for item in data)
     return False
+
+def is_str_in_data_value(data, match_string: str):
+    # Compile the regular expression pattern
+    pattern = re.compile(match_string)
+    
+    if isinstance(data, dict):
+        # Check if the pattern matches any of the values in the dictionary
+        if any(pattern.search(str(value)) for value in data.values()):
+            return True
+        # Recursively check in the nested dictionaries
+        return any(is_str_in_data_value(value, match_string) for value in data.values())
+    elif isinstance(data, list):
+        # Check if the pattern matches any of the items in the list
+        if any(pattern.search(str(item)) for item in data):
+            return True
+        # Recursively check in the nested lists
+        return any(is_str_in_data_value(item, match_string) for item in data)
+    
+    return False
+
+def key_value_return(data, target_key, default_value):
+    if isinstance(data, dict):
+        if target_key in data:
+            return data[target_key]  # Return the first found value
+        for value in data.values():
+            result = all_key_value_return(value, target_key, default_value)
+            if result is not None:
+                return result
+    elif isinstance(data, list):
+        for item in data:
+            result = all_key_value_return(item, target_key, default_value)
+            if result is not None:
+                return result
+    return default_value  # Return the default value if not found
+
 def all_key_value_return(data, target_key):
     results = []
     
