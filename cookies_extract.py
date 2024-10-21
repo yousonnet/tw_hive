@@ -16,6 +16,7 @@ def add_base64_padding(base64_string: str) -> str:
 
 def decode_cookies_from_singlestr(singlestr:str)->dict:
     singlestr = add_base64_padding(singlestr)
+    print(len(singlestr))
     decoded_data = base64.b64decode(singlestr).decode('utf-8')
 
     # Parse the JSON data
@@ -89,7 +90,7 @@ def extract_base64_data(text,base64_length:int=256)->list[str]:
     return_length_enough =[]
     for item in matches:
         if len(item)>=base64_length:
-            print(len(item))
+            # print(len(item))
             return_length_enough.append(item)
     # Return the list of matches
     return return_length_enough
