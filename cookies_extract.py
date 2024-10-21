@@ -17,7 +17,7 @@ def add_base64_padding(base64_string: str) -> str:
 def decode_cookies_from_singlestr(singlestr:str)->dict:
     singlestr = add_base64_padding(singlestr)
     print(len(singlestr))
-    decoded_data = base64.b64decode(singlestr).decode('latin1')
+    decoded_data = base64.b64decode(singlestr).decode('utf-8')
 
     # Parse the JSON data
     cookies = json.loads(decoded_data)
